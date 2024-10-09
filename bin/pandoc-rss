@@ -88,8 +88,12 @@ generate_feed_item ()
 
     case $guid_format in
         *%s*)
-            filename=${input_file##*/}
-            basename=${filename%.*}
+            if [ -n "$guid_page_meta" ]; then
+                basename=$(get_metadata_value "$guid_page_meta" "$input_file")
+            else
+                filename=${input_file##*/}
+                basename=${filename%.*}
+            fi
             guid=$(printf "$guid_format" "$basename")
             set -- -V "guid:$guid" "$@"
     esac
@@ -162,7 +166,7 @@ unset channel_language
 omit_body=false
 guid_optarg=auto
 standalone=false
-while getopts t:l:d:w:c:n:of:hs OPT
+while getopts t:l:d:w:c:n:of:p:hs OPT
 do
     case "$OPT" in
         t)  channel_title=$OPTARG ;;
@@ -173,6 +177,7 @@ do
         n)  channel_language=$OPTARG ;;
         o)  omit_body=true ;;
         f)  guid_optarg=$OPTARG ;;
+        p)  guid_page_meta=$OPT_ARG ;;
         s)  standalone=true ;;
         ?)  usage; exit 2 ;;
     esac
