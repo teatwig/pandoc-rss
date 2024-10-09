@@ -74,6 +74,7 @@ generate_feed_item ()
             fi
             guid=$(printf "$guid_format" "$basename")
             set -- -V "guid:$guid" "$@"
+            set -- -V "link:$guid" "$@"
     esac
 
     if date=$(get_date "$input_file")

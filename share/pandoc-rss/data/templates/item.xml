@@ -5,6 +5,9 @@ $endif$
 $if(date)$
 <pubDate>$date$</pubDate>
 $endif$
+$if(link)$
+<link>$link$</link>
+$endif$
 $if(guid)$
 <guid>$guid$</guid>
 $endif$
